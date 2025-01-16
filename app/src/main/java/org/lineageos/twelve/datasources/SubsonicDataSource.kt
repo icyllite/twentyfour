@@ -106,8 +106,7 @@ class SubsonicDataSource(
         ).toRequestStatus {
             ActivityTab(
                 "most_played_albums",
-                LocalizedString(
-                    "Most played albums",
+                LocalizedString.StringResIdLocalizedString(
                     R.string.activity_most_played_albums,
                 ),
                 album.sortedByDescending { it.playCount }.map { it.toMediaItem() }
@@ -120,8 +119,7 @@ class SubsonicDataSource(
         ).toRequestStatus {
             ActivityTab(
                 "random_albums",
-                LocalizedString(
-                    "Random albums",
+                LocalizedString.StringResIdLocalizedString(
                     R.string.activity_random_albums,
                 ),
                 album.map { it.toMediaItem() }
@@ -131,8 +129,7 @@ class SubsonicDataSource(
         val randomSongs = subsonicClient.getRandomSongs(20).toRequestStatus {
             ActivityTab(
                 "random_songs",
-                LocalizedString(
-                    "Random songs",
+                LocalizedString.StringResIdLocalizedString(
                     R.string.activity_random_songs,
                 ),
                 song.map { it.toMediaItem() }

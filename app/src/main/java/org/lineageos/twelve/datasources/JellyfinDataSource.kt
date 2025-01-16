@@ -113,10 +113,7 @@ class JellyfinDataSource(
             listOf(
                 ActivityTab(
                     "last_played",
-                    LocalizedString(
-                        "Last played",
-                        R.string.activity_last_played
-                    ),
+                    LocalizedString.StringResIdLocalizedString(R.string.activity_last_played),
                     lastPlayed
                 ),
             ).filter { it.items.isNotEmpty() }
