@@ -6,7 +6,6 @@
 package org.lineageos.twelve.viewmodels
 
 import android.app.Application
-import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,6 +15,10 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.preference.PreferenceManager
+import coil3.imageLoader
+import coil3.request.ImageRequest
+import coil3.request.allowHardware
+import coil3.toBitmap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
@@ -123,8 +126,13 @@ class LocalPlayerViewModel(application: Application) : AndroidViewModel(applicat
                 mediaMetadata.artworkUri?.let {
                     Thumbnail(uri = it)
                 } ?: mediaMetadata.artworkData?.let {
-                    BitmapFactory.decodeByteArray(it, 0, it.size)?.let { bitmap ->
-                        Thumbnail(bitmap = bitmap)
+                    val imageRequest = ImageRequest.Builder(applicationContext)
+                        .data(it)
+                        .allowHardware(false)
+                        .build()
+
+                    applicationContext.imageLoader.execute(imageRequest).image?.let { image ->
+                        Thumbnail(bitmap = image.toBitmap())
                     }
                 }
             )

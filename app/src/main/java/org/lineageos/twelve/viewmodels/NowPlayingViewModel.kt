@@ -6,13 +6,16 @@
 package org.lineageos.twelve.viewmodels
 
 import android.app.Application
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import androidx.media3.common.C
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.util.UnstableApi
+import coil3.imageLoader
+import coil3.request.ImageRequest
+import coil3.request.allowHardware
+import coil3.toBitmap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
@@ -34,6 +37,7 @@ import me.bogerchan.niervisualizer.renderer.columnar.ColumnarType2Renderer
 import me.bogerchan.niervisualizer.renderer.columnar.ColumnarType3Renderer
 import me.bogerchan.niervisualizer.renderer.columnar.ColumnarType4Renderer
 import me.bogerchan.niervisualizer.renderer.line.LineRenderer
+import org.lineageos.twelve.ext.applicationContext
 import org.lineageos.twelve.ext.availableCommandsFlow
 import org.lineageos.twelve.ext.isPlayingFlow
 import org.lineageos.twelve.ext.mediaItemFlow
@@ -167,8 +171,13 @@ open class NowPlayingViewModel(application: Application) : TwelveViewModel(appli
                 mediaMetadata.artworkUri?.let {
                     Thumbnail(uri = it)
                 } ?: mediaMetadata.artworkData?.let {
-                    BitmapFactory.decodeByteArray(it, 0, it.size)?.let { bitmap ->
-                        Thumbnail(bitmap = bitmap)
+                    val imageRequest = ImageRequest.Builder(applicationContext)
+                        .data(it)
+                        .allowHardware(false)
+                        .build()
+
+                    applicationContext.imageLoader.execute(imageRequest).image?.let { image ->
+                        Thumbnail(bitmap = image.toBitmap())
                     }
                 }
             )
