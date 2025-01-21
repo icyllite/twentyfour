@@ -98,7 +98,7 @@ open class NowPlayingViewModel(application: Application) : TwelveViewModel(appli
         .stateIn(
             viewModelScope,
             started = SharingStarted.WhileSubscribed(),
-            initialValue = null
+            initialValue = RequestStatus.Loading()
         )
 
     @OptIn(ExperimentalCoroutinesApi::class)
