@@ -294,6 +294,7 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlist) {
                             playAllExtendedFloatingActionButton.hide()
                             shufflePlayExtendedFloatingActionButton.hide()
                         }
+
                         false -> {
                             playAllExtendedFloatingActionButton.show()
                             shufflePlayExtendedFloatingActionButton.show()
