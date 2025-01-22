@@ -341,13 +341,12 @@ class MediaRepository(
     /**
      * Get a flow of the [Provider].
      *
-     * @param providerType The [ProviderType]
-     * @param providerTypeId The [ProviderType] specific provider ID
+     * @param providerIdentifier The [ProviderIdentifier]
      * @return A flow of the corresponding [Provider].
      */
-    fun provider(providerType: ProviderType, providerTypeId: Long) = allProviders.mapLatest {
+    fun provider(providerIdentifier: ProviderIdentifier) = allProviders.mapLatest {
         it.firstOrNull { provider ->
-            providerType == provider.type && providerTypeId == provider.typeId
+            providerIdentifier.type == provider.type && providerIdentifier.typeId == provider.typeId
         }
     }
 
@@ -355,15 +354,14 @@ class MediaRepository(
      * Get a flow of the [Bundle] containing the arguments. This method should only be used by the
      * provider manager fragment.
      *
-     * @param providerType The [ProviderType]
-     * @param providerTypeId The [ProviderType] specific provider ID
+     * @param providerIdentifier The [ProviderIdentifier]
      * @return A flow of [Bundle] containing the arguments.
      */
-    fun providerArguments(providerType: ProviderType, providerTypeId: Long) = when (providerType) {
+    fun providerArguments(providerIdentifier: ProviderIdentifier) = when (providerIdentifier.type) {
         ProviderType.LOCAL -> flowOf(Bundle.EMPTY)
 
         ProviderType.SUBSONIC -> database.getSubsonicProviderDao().getById(
-            providerTypeId
+            providerIdentifier.typeId
         ).mapLatest { subsonicProvider ->
             subsonicProvider?.let {
                 bundleOf(
@@ -377,7 +375,7 @@ class MediaRepository(
         }
 
         ProviderType.JELLYFIN -> database.getJellyfinProviderDao().getById(
-            providerTypeId
+            providerIdentifier.typeId
         ).mapLatest { jellyfinProvider ->
             jellyfinProvider?.let {
                 bundleOf(
@@ -434,18 +432,16 @@ class MediaRepository(
     /**
      * Update an already existing provider.
      *
-     * @param providerType The [ProviderType]
-     * @param providerTypeId The [ProviderType] specific provider ID
+     * @param providerIdentifier The [ProviderIdentifier]
      * @param name The updated name
      * @param arguments The updated arguments
      */
     suspend fun updateProvider(
-        providerType: ProviderType,
-        providerTypeId: Long,
+        providerIdentifier: ProviderIdentifier,
         name: String,
         arguments: Bundle
     ) {
-        when (providerType) {
+        when (providerIdentifier.type) {
             ProviderType.LOCAL -> throw Exception("Cannot update local providers")
 
             ProviderType.SUBSONIC -> {
@@ -457,7 +453,7 @@ class MediaRepository(
                 )
 
                 database.getSubsonicProviderDao().update(
-                    providerTypeId,
+                    providerIdentifier.typeId,
                     name,
                     server,
                     username,
@@ -472,7 +468,7 @@ class MediaRepository(
                 val password = arguments.requireArgument(JellyfinDataSource.ARG_PASSWORD)
 
                 database.getJellyfinProviderDao().update(
-                    providerTypeId,
+                    providerIdentifier.typeId,
                     name,
                     server,
                     username,
@@ -485,16 +481,19 @@ class MediaRepository(
     /**
      * Delete a provider.
      *
-     * @param providerType The [ProviderType]
-     * @param providerTypeId The [ProviderType] specific provider ID
+     * @param providerIdentifier The [ProviderIdentifier]
      */
-    suspend fun deleteProvider(providerType: ProviderType, providerTypeId: Long) {
-        when (providerType) {
+    suspend fun deleteProvider(providerIdentifier: ProviderIdentifier) {
+        when (providerIdentifier.type) {
             ProviderType.LOCAL -> throw Exception("Cannot delete local providers")
 
-            ProviderType.SUBSONIC -> database.getSubsonicProviderDao().delete(providerTypeId)
+            ProviderType.SUBSONIC -> database.getSubsonicProviderDao().delete(
+                providerIdentifier.typeId
+            )
 
-            ProviderType.JELLYFIN -> database.getJellyfinProviderDao().delete(providerTypeId)
+            ProviderType.JELLYFIN -> database.getJellyfinProviderDao().delete(
+                providerIdentifier.typeId
+            )
         }
     }
 
@@ -608,8 +607,8 @@ class MediaRepository(
      * @see MediaDataSource.createPlaylist
      */
     suspend fun createPlaylist(
-        provider: Provider, name: String
-    ) = getDataSource(provider)?.createPlaylist(
+        providerIdentifier: ProviderIdentifier, name: String
+    ) = getDataSource(providerIdentifier)?.createPlaylist(
         name
     ) ?: RequestStatus.Error(
         MediaError.NOT_FOUND
@@ -657,54 +656,31 @@ class MediaRepository(
     /**
      * Get the [MediaDataSource] associated with the given [Provider].
      *
-     * @param providerType The [ProviderType]
-     * @param providerTypeId The [ProviderType] specific provider ID
+     * @param providerIdentifier The [ProviderIdentifier]
      * @return The corresponding [MediaDataSource]
      */
     private fun getDataSource(
-        providerType: ProviderType, providerTypeId: Long
+        providerIdentifier: ProviderIdentifier,
     ) = allProvidersToDataSource.value.firstOrNull { (provider, _) ->
-        providerType == provider.type && providerTypeId == provider.typeId
+        providerIdentifier.type == provider.type && providerIdentifier.typeId == provider.typeId
     }?.second
 
     /**
-     * Get the [MediaDataSource] associated with the given [Provider].
-     *
-     * @param provider The provider
-     * @return The corresponding [MediaDataSource]
-     */
-    private fun getDataSource(provider: Provider) = getDataSource(provider.type, provider.typeId)
-
-    /**
      * Find the [MediaDataSource] that matches the given [Provider] and call the given predicate on
      * it.
      *
-     * @param providerType The [ProviderType]
-     * @param providerTypeId The [ProviderType] specific provider ID
+     * @param providerIdentifier The [ProviderIdentifier]
      * @return A flow containing the result of the predicate. It will emit a not found error if
      *   no [MediaDataSource] matches the given provider
      */
     private fun <T> withProviderDataSource(
-        providerType: ProviderType, providerTypeId: Long,
+        providerIdentifier: ProviderIdentifier,
         predicate: MediaDataSource.() -> Flow<RequestStatus<T, MediaError>>
     ) = allProvidersToDataSource.flatMapLatest {
         it.firstOrNull { (provider, _) ->
-            providerType == provider.type && providerTypeId == provider.typeId
+            providerIdentifier.type == provider.type && providerIdentifier.typeId == provider.typeId
         }?.second?.predicate() ?: flowOf(RequestStatus.Error(MediaError.NOT_FOUND))
     }
-
-    /**
-     * Find the [MediaDataSource] that matches the given [Provider] and call the given predicate on
-     * it.
-     *
-     * @param provider The provider
-     * @return A flow containing the result of the predicate. It will emit a not found error if
-     *   no [MediaDataSource] matches the given provider
-     */
-    private fun <T> withProviderDataSource(
-        provider: Provider,
-        predicate: MediaDataSource.() -> Flow<RequestStatus<T, MediaError>>
-    ) = withProviderDataSource(provider.type, provider.typeId, predicate)
 
     /**
      * Find the [MediaDataSource] that handles the given URIs and call the given predicate on it.
