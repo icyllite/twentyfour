@@ -194,7 +194,9 @@ fun Player.playbackProgressFlow() = conflatedCallbackFlow {
             PlaybackProgress(
                 isPlaying = isPlaying,
                 durationMs = durationMs,
-                currentPositionMs = currentPosition.takeIf { durationMs != null },
+                currentPositionMs = currentPosition
+                    .takeIf { durationMs != null }
+                    ?.coerceAtMost(durationMs ?: 0),
                 playbackSpeed = playbackParameters.speed,
             )
         )
