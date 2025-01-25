@@ -496,6 +496,13 @@ class MediaRepository(
     }
 
     /**
+     * Delete all local stats entries.
+     */
+    suspend fun resetLocalStats() {
+        database.getLocalMediaStatsProviderDao().deleteAll()
+    }
+
+    /**
      * @see MediaDataSource.status
      */
     fun status(provider: Provider) = withProviderDataSource(provider) {
