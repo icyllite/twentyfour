@@ -87,11 +87,11 @@ class LocalDataSource(
 
         Album(
             uri,
+            thumbnail,
             album.takeIf { it != MediaStore.UNKNOWN_STRING },
             artistUri,
             artist.takeIf { it != MediaStore.UNKNOWN_STRING },
             lastYear.takeIf { it != 0 },
-            thumbnail,
         )
     }
 
@@ -108,8 +108,8 @@ class LocalDataSource(
 
         Artist(
             uri,
-            artist.takeIf { it != MediaStore.UNKNOWN_STRING },
             thumbnail,
+            artist.takeIf { it != MediaStore.UNKNOWN_STRING },
         )
     }
 
@@ -121,6 +121,7 @@ class LocalDataSource(
 
         Genre(
             uri,
+            null,
             name,
         )
     }
@@ -168,8 +169,14 @@ class LocalDataSource(
             }
         } ?: (null to null)
 
+        val thumbnail = Thumbnail.Builder()
+            .setUri(albumUri)
+            .setType(Thumbnail.Type.FRONT_COVER)
+            .build()
+
         Audio(
             uri,
+            thumbnail,
             uri,
             mimeType,
             title,
@@ -595,7 +602,7 @@ class LocalDataSource(
             ).mapEachRow(mapAudio)
         ) { genres, appearsInAlbums, audios ->
             val genre = genres.firstOrNull() ?: when (genreId) {
-                0L -> Genre(genreUri, null)
+                0L -> Genre(genreUri, null, null)
                 else -> null
             }
 
@@ -878,6 +885,7 @@ class LocalDataSource(
 
         private fun org.lineageos.twelve.database.entities.Playlist.toModel() = Playlist(
             ContentUris.withAppendedId(playlistsBaseUri, id),
+            null,
             name,
         )
     }

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 The LineageOS Project
+ * SPDX-FileCopyrightText: 2024-2025 The LineageOS Project
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -13,30 +13,28 @@ import org.lineageos.twelve.ext.toByteArray
 /**
  * An album.
  *
- * @param uri The URI of the album
  * @param title The title of the album
  * @param artistUri The URI of the artist
  * @param artistName The name of the artist
  * @param year The year of the album
- * @param thumbnail The album's thumbnail
  */
 data class Album(
     override val uri: Uri,
+    override val thumbnail: Thumbnail?,
     val title: String?,
     val artistUri: Uri,
     val artistName: String?,
     val year: Int?,
-    val thumbnail: Thumbnail?,
 ) : MediaItem<Album> {
     override val mediaType = MediaType.ALBUM
 
     override fun areContentsTheSame(other: Album) = compareValuesBy(
         this, other,
+        Album::thumbnail,
         Album::title,
         Album::artistUri,
         Album::artistName,
         Album::year,
-        Album::thumbnail,
     ) == 0
 
     override fun toMedia3MediaItem() = buildMediaItem(

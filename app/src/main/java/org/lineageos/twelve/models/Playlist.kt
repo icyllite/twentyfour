@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 The LineageOS Project
+ * SPDX-FileCopyrightText: 2024-2025 The LineageOS Project
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -13,22 +13,19 @@ import org.lineageos.twelve.ext.toByteArray
 /**
  * A user-defined playlist.
  *
- * @param uri The URI of the playlist
  * @param name The name of the playlist
- * @param thumbnail The thumbnail of the playlist
  */
 data class Playlist(
     override val uri: Uri,
+    override val thumbnail: Thumbnail?,
     val name: String,
-    val thumbnail: Thumbnail? = null,
 ) : MediaItem<Playlist> {
     override val mediaType = MediaType.PLAYLIST
 
     override fun areContentsTheSame(other: Playlist) = compareValuesBy(
-        this,
-        other,
-        Playlist::name,
+        this, other,
         Playlist::thumbnail,
+        Playlist::name,
     ) == 0
 
     override fun toMedia3MediaItem() = buildMediaItem(
