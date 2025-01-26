@@ -165,4 +165,33 @@ class AlbumViewModel(application: Application) : TwelveViewModel(application) {
             playAudio(audios.shuffled(), 0)
         }
     }
+
+    fun addToQueue() {
+        tracks.value.takeUnless { it.isEmpty() }?.let { audios ->
+            mediaController.value?.apply {
+                addMediaItems(audios.map { it.toMedia3MediaItem() })
+
+                // If the added items are the only one, play them
+                if (mediaItemCount == audios.count()) {
+                    play()
+                }
+            }
+        }
+    }
+
+    fun playNext() {
+        tracks.value.takeUnless { it.isEmpty() }?.let { audios ->
+            mediaController.value?.apply {
+                addMediaItems(
+                    currentMediaItemIndex + 1,
+                    audios.map { it.toMedia3MediaItem() },
+                )
+
+                // If the added items are the only one, play them
+                if (mediaItemCount == audios.count()) {
+                    play()
+                }
+            }
+        }
+    }
 }
