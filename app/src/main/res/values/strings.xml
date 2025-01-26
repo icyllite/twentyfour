@@ -135,7 +135,7 @@
 
     <!-- Provider arguments validation errors -->
     <string name="provider_argument_validation_error_required">A value is required</string>
-    <string name="provider_argument_validation_error_malformed_http_uri">Must be a valid HTTP or HTTPS URL (e.g. https://google.com)</string>
+    <string name="provider_argument_validation_error_malformed_http_uri">Must be a valid HTTP or HTTPS URL (e.g. http://192.168.1.100 or https://google.com)</string>
 
     <!-- Provider selector dialog fragment -->
     <string name="no_provider">No provider</string>
