@@ -5,7 +5,8 @@
 
 package org.lineageos.twelve.models
 
-import kotlinx.serialization.Serializable
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
 /**
  * [Provider] identifier. Two instances are the same if they have the same [typeId] and [type].
@@ -13,12 +14,11 @@ import kotlinx.serialization.Serializable
  * @param type The provider type
  * @param typeId The ID of the provider relative to the [ProviderType]
  */
-@Suppress("PROVIDED_RUNTIME_TOO_LOW")
-@Serializable
+@Parcelize
 open class ProviderIdentifier(
     val type: ProviderType,
     val typeId: Long,
-) : Comparable<ProviderIdentifier> {
+) : Comparable<ProviderIdentifier>, Parcelable {
     override fun compareTo(other: ProviderIdentifier) = compareValuesBy(
         this, other,
         ProviderIdentifier::type,
