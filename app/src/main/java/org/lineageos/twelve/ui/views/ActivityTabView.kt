@@ -29,9 +29,9 @@ class ActivityTabView(context: Context) : FrameLayout(context) {
     private val titleTextView by lazy { findViewById<TextView>(R.id.titleTextView) }
 
     // RecyclerView
-    private val adapter = object : SimpleListAdapter<MediaItem<*>, ActivityTabItem>(
+    private val adapter = object : SimpleListAdapter<MediaItem<*>, HorizontalMediaItemView>(
         mediaItemDiffCallback,
-        ::ActivityTabItem,
+        ::HorizontalMediaItemView,
     ) {
         override fun ViewHolder.onPrepareView() {
             view.setOnClickListener {

@@ -43,7 +43,7 @@ import org.lineageos.twelve.models.Playlist
 import org.lineageos.twelve.models.RequestStatus
 import org.lineageos.twelve.ui.recyclerview.SimpleListAdapter
 import org.lineageos.twelve.ui.recyclerview.UniqueItemDiffCallback
-import org.lineageos.twelve.ui.views.HorizontalListItem
+import org.lineageos.twelve.ui.views.HorizontalMediaItemView
 import org.lineageos.twelve.utils.PermissionsChecker
 import org.lineageos.twelve.utils.PermissionsUtils
 import org.lineageos.twelve.viewmodels.GenreViewModel
@@ -72,13 +72,11 @@ class GenreFragment : Fragment(R.layout.fragment_genre) {
 
     // RecyclerView
     private val appearsInAlbumsAdapter by lazy {
-        object : SimpleListAdapter<Album, HorizontalListItem>(
+        object : SimpleListAdapter<Album, HorizontalMediaItemView>(
             UniqueItemDiffCallback(),
-            ::HorizontalListItem,
+            ::HorizontalMediaItemView,
         ) {
             override fun ViewHolder.onPrepareView() {
-                view.headlineMaxLines = 2
-
                 view.setOnClickListener {
                     item?.let {
                         findNavController().navigateSafe(
@@ -105,25 +103,16 @@ class GenreFragment : Fragment(R.layout.fragment_genre) {
             }
 
             override fun ViewHolder.onBindView(item: Album) {
-                view.loadThumbnailImage(item.thumbnail, R.drawable.ic_album)
-
-                item.title?.also {
-                    view.headlineText = it
-                } ?: view.setHeadlineText(R.string.album_unknown)
-                item.artistName?.also {
-                    view.supportingText = it
-                } ?: view.setSupportingText(R.string.artist_unknown)
-                view.tertiaryText = item.year?.toString()
+                view.setItem(item)
             }
         }
     }
     private val appearsInPlaylistsAdapter by lazy {
-        object : SimpleListAdapter<Playlist, HorizontalListItem>(
+        object : SimpleListAdapter<Playlist, HorizontalMediaItemView>(
             UniqueItemDiffCallback(),
-            ::HorizontalListItem,
+            ::HorizontalMediaItemView,
         ) {
             override fun ViewHolder.onPrepareView() {
-                view.setThumbnailImage(R.drawable.ic_playlist_play)
                 view.setOnClickListener {
                     item?.let {
                         findNavController().navigateSafe(
@@ -149,19 +138,16 @@ class GenreFragment : Fragment(R.layout.fragment_genre) {
             }
 
             override fun ViewHolder.onBindView(item: Playlist) {
-                view.headlineText = item.name
+                view.setItem(item)
             }
         }
     }
     private val audiosAdapter by lazy {
-        object : SimpleListAdapter<Audio, HorizontalListItem>(
+        object : SimpleListAdapter<Audio, HorizontalMediaItemView>(
             UniqueItemDiffCallback(),
-            ::HorizontalListItem,
+            ::HorizontalMediaItemView,
         ) {
             override fun ViewHolder.onPrepareView() {
-                view.setThumbnailImage(R.drawable.ic_music_note)
-                view.headlineMaxLines = 2
-
                 view.setOnClickListener {
                     item?.let {
                         viewModel.playAudio(currentList, bindingAdapterPosition)
@@ -187,13 +173,7 @@ class GenreFragment : Fragment(R.layout.fragment_genre) {
             }
 
             override fun ViewHolder.onBindView(item: Audio) {
-                view.headlineText = item.title
-                item.artistName?.also {
-                    view.supportingText = it
-                } ?: view.setSupportingText(R.string.artist_unknown)
-                item.albumTitle?.also {
-                    view.tertiaryText = it
-                } ?: view.setTertiaryText(R.string.album_unknown)
+                view.setItem(item)
             }
         }
     }
