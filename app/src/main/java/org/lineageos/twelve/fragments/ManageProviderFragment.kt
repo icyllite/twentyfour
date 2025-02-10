@@ -65,7 +65,6 @@ class ManageProviderFragment : Fragment(R.layout.fragment_manage_provider) {
         get() = arguments?.getLong(ARG_PROVIDER_TYPE_ID, -1L).takeIf { it != -1L }
 
     // Providers
-    private val remoteProviderTypes = ProviderType.entries.filter { it != ProviderType.LOCAL }
     private var selectedProviderType: ProviderType? = null
     private val providerArguments = Bundle()
 
@@ -137,7 +136,7 @@ class ManageProviderFragment : Fragment(R.layout.fragment_manage_provider) {
         )
 
         selectedProviderType = providerType?.also {
-            require(remoteProviderTypes.contains(it)) { "Invalid provider type: $it" }
+            require(manageableProviderTypes.contains(it)) { "Invalid provider type: $it" }
         }
     }
 
@@ -194,13 +193,13 @@ class ManageProviderFragment : Fragment(R.layout.fragment_manage_provider) {
         }
 
         providerTypeAutoCompleteTextView.setSimpleItems(
-            remoteProviderTypes.map {
+            manageableProviderTypes.map {
                 getString(it.nameStringResId)
             }.toTypedArray()
         )
 
         providerTypeAutoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
-            viewModel.setProviderType(remoteProviderTypes[position])
+            viewModel.setProviderType(manageableProviderTypes[position])
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -273,7 +272,7 @@ class ManageProviderFragment : Fragment(R.layout.fragment_manage_provider) {
 
                             providerType?.also {
                                 providerTypeAutoCompleteTextView.selectItem(
-                                    remoteProviderTypes.indexOf(it)
+                                    manageableProviderTypes.indexOf(it)
                                 )
 
                                 providerTypeTextInputLayout.setStartIconDrawable(
@@ -355,6 +354,8 @@ class ManageProviderFragment : Fragment(R.layout.fragment_manage_provider) {
                 newItem: ProviderArgument<*>
             ) = false // Reload all items
         }
+
+        private val manageableProviderTypes = ProviderType.entries.filter { it.canBeManaged }
 
         /**
          * Create a [Bundle] to use as the arguments for this fragment.

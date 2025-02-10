@@ -65,7 +65,7 @@ open class ProviderViewModel(application: Application) : TwelveViewModel(applica
         .mapLatest {
             when (it) {
                 is RequestStatus.Loading -> null
-                is RequestStatus.Success -> it.data.type != ProviderType.LOCAL
+                is RequestStatus.Success -> it.data.type.canBeManaged
                 is RequestStatus.Error -> false
             }
         }

@@ -7,6 +7,7 @@ package org.lineageos.twelve.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -53,6 +54,8 @@ class ProviderSelectorDialogFragment : MaterialDialogFragment(
                 viewModel.setNavigationProvider(item)
                 findNavController().navigateUp()
             }
+
+            view.trailingView?.isVisible = item.type.canBeManaged
             view.trailingView?.setOnClickListener {
                 findNavController().navigateSafe(
                     R.id.action_providerSelectorDialogFragment_to_fragment_provider_information_bottom_sheet_dialog,
