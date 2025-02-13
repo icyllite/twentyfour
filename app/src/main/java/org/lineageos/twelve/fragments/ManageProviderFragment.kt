@@ -30,11 +30,13 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.lineageos.twelve.R
 import org.lineageos.twelve.datasources.MediaError
+import org.lineageos.twelve.ext.getParcelable
 import org.lineageos.twelve.ext.getSerializable
 import org.lineageos.twelve.ext.getViewProperty
 import org.lineageos.twelve.ext.selectItem
 import org.lineageos.twelve.models.ProviderArgument
 import org.lineageos.twelve.models.ProviderArgument.Companion.validateArgument
+import org.lineageos.twelve.models.ProviderIdentifier
 import org.lineageos.twelve.models.ProviderType
 import org.lineageos.twelve.models.RequestStatus
 import org.lineageos.twelve.ui.recyclerview.SimpleListAdapter
@@ -59,10 +61,10 @@ class ManageProviderFragment : Fragment(R.layout.fragment_manage_provider) {
     private val toolbar by getViewProperty<MaterialToolbar>(R.id.toolbar)
 
     // Arguments
+    private val providerIdentifier: ProviderIdentifier?
+        get() = arguments?.getParcelable(ARG_PROVIDER_IDENTIFIER, ProviderIdentifier::class)
     private val providerType: ProviderType?
         get() = arguments?.getSerializable(ARG_PROVIDER_TYPE, ProviderType::class)
-    private val providerTypeId: Long?
-        get() = arguments?.getLong(ARG_PROVIDER_TYPE_ID, -1L).takeIf { it != -1L }
 
     // Providers
     private var selectedProviderType: ProviderType? = null
@@ -127,13 +129,7 @@ class ManageProviderFragment : Fragment(R.layout.fragment_manage_provider) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.setProviderIds(
-            providerType?.let { providerType ->
-                providerTypeId?.let {
-                    providerType to it
-                }
-            }
-        )
+        viewModel.setProviderIdentifier(providerIdentifier)
 
         selectedProviderType = providerType?.also {
             require(manageableProviderTypes.contains(it)) { "Invalid provider type: $it" }
@@ -340,8 +336,8 @@ class ManageProviderFragment : Fragment(R.layout.fragment_manage_provider) {
     companion object {
         private val LOG_TAG = ManageProviderFragment::class.simpleName!!
 
+        private const val ARG_PROVIDER_IDENTIFIER = "provider_identifier"
         private const val ARG_PROVIDER_TYPE = "provider_type"
-        private const val ARG_PROVIDER_TYPE_ID = "provider_type_id"
 
         private val argumentsDiffCallback = object : DiffUtil.ItemCallback<ProviderArgument<*>>() {
             override fun areItemsTheSame(
@@ -359,16 +355,16 @@ class ManageProviderFragment : Fragment(R.layout.fragment_manage_provider) {
 
         /**
          * Create a [Bundle] to use as the arguments for this fragment.
-         * @param providerType A [ProviderType] to either use as an hint for the creation of a new
-         *   instance or the type of the provider to edit or delete
-         * @param providerTypeId The type specific ID of the provider to edit or delete
+         * @param providerIdentifier The identifier of the provider to edit or delete
+         * @param providerType A [ProviderType] to use as an hint for the creation of a new
+         *   instance, ignored when [providerIdentifier] is provided
          */
         fun createBundle(
+            providerIdentifier: ProviderIdentifier? = null,
             providerType: ProviderType? = null,
-            providerTypeId: Long? = null,
         ) = bundleOf(
+            ARG_PROVIDER_IDENTIFIER to providerIdentifier,
             ARG_PROVIDER_TYPE to providerType,
-            ARG_PROVIDER_TYPE_ID to providerTypeId,
         )
     }
 }
