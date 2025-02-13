@@ -22,7 +22,7 @@ data class Album(
     override val uri: Uri,
     override val thumbnail: Thumbnail?,
     val title: String?,
-    val artistUri: Uri,
+    val artistUri: Uri?,
     val artistName: String?,
     val year: Int?,
 ) : MediaItem<Album> {
@@ -48,4 +48,48 @@ data class Album(
         artworkType = thumbnail?.type?.media3Value,
         artworkUri = thumbnail?.uri,
     )
+
+    class Builder(uri: Uri) : MediaItem.Builder<Builder, Album>(uri) {
+        private var title: String? = null
+        private var artistUri: Uri? = null
+        private var artistName: String? = null
+        private var year: Int? = null
+
+        /**
+         * @see Album.title
+         */
+        fun setTitle(title: String?) = this.also {
+            this.title = title
+        }
+
+        /**
+         * @see Album.artistUri
+         */
+        fun setArtistUri(artistUri: Uri?) = this.also {
+            this.artistUri = artistUri
+        }
+
+        /**
+         * @see Album.artistName
+         */
+        fun setArtistName(artistName: String?) = this.also {
+            this.artistName = artistName
+        }
+
+        /**
+         * @see Album.year
+         */
+        fun setYear(year: Int?) = this.also {
+            this.year = year
+        }
+
+        override fun build() = Album(
+            uri = uri,
+            thumbnail = thumbnail,
+            title = title,
+            artistUri = artistUri,
+            artistName = artistName,
+            year = year,
+        )
+    }
 }

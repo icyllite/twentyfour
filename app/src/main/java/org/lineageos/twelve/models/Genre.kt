@@ -40,4 +40,21 @@ data class Genre(
         artworkType = thumbnail?.type?.media3Value,
         artworkUri = thumbnail?.uri,
     )
+
+    class Builder(uri: Uri) : MediaItem.Builder<Builder, Genre>(uri) {
+        private var name: String? = null
+
+        /**
+         * @see Genre.name
+         */
+        fun setName(name: String?) = this.also {
+            this.name = name
+        }
+
+        override fun build() = Genre(
+            uri = uri,
+            thumbnail = thumbnail,
+            name = name,
+        )
+    }
 }

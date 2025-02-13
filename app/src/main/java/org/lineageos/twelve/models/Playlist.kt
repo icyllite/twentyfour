@@ -18,7 +18,7 @@ import org.lineageos.twelve.ext.toByteArray
 data class Playlist(
     override val uri: Uri,
     override val thumbnail: Thumbnail?,
-    val name: String,
+    val name: String?,
 ) : MediaItem<Playlist> {
     override val mediaType = MediaType.PLAYLIST
 
@@ -39,4 +39,21 @@ data class Playlist(
         artworkType = thumbnail?.type?.media3Value,
         artworkUri = thumbnail?.uri,
     )
+
+    class Builder(uri: Uri) : MediaItem.Builder<Builder, Playlist>(uri) {
+        private var name: String? = null
+
+        /**
+         * @see Playlist.name
+         */
+        fun setName(name: String?) = this.also {
+            this.name = name
+        }
+
+        override fun build() = Playlist(
+            uri = uri,
+            thumbnail = thumbnail,
+            name = name,
+        )
+    }
 }

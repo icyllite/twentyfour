@@ -39,4 +39,21 @@ data class Artist(
         artworkType = thumbnail?.type?.media3Value,
         artworkUri = thumbnail?.uri,
     )
+
+    class Builder(uri: Uri) : MediaItem.Builder<Builder, Artist>(uri) {
+        private var name: String? = null
+
+        /**
+         * @see Artist.name
+         */
+        fun setName(name: String?) = this.also {
+            this.name = name
+        }
+
+        override fun build() = Artist(
+            uri = uri,
+            thumbnail = thumbnail,
+            name = name,
+        )
+    }
 }
