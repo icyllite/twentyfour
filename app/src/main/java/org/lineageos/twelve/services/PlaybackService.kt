@@ -182,7 +182,11 @@ class PlaybackService : MediaLibraryService(), LifecycleOwner {
                 // Shouldn't be needed, but just to be sure
                 startIndex = startIndex.coerceIn(mediaItems.indices)
 
-                MediaSession.MediaItemsWithStartPosition(mediaItems, startIndex, startPositionMs)
+                MediaSession.MediaItemsWithStartPosition(
+                    mediaItems,
+                    startIndex,
+                    startPositionMs
+                )
             }
         }
 
