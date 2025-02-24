@@ -371,7 +371,8 @@ open class NowPlayingViewModel(application: Application) : TwelveViewModel(appli
                 } ?: LyricsLineState.UNKNOWN
 
                 if (lyricsLineState == LyricsLineState.ACTIVE
-                    || lyricsLineState == LyricsLineState.PAST) {
+                    || lyricsLineState == LyricsLineState.PAST
+                ) {
                     currentIndex = i
                 }
 
