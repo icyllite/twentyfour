@@ -49,6 +49,8 @@ import org.lineageos.twelve.ext.shuffleModeFlow
 import org.lineageos.twelve.ext.toThumbnail
 import org.lineageos.twelve.ext.tracksFlow
 import org.lineageos.twelve.models.Error
+import org.lineageos.twelve.models.FlowResult
+import org.lineageos.twelve.models.FlowResult.Companion.asFlowResult
 import org.lineageos.twelve.models.PlaybackProgress
 import org.lineageos.twelve.models.PlaybackState
 import org.lineageos.twelve.models.RepeatMode
@@ -132,11 +134,12 @@ open class NowPlayingViewModel(application: Application) : TwelveViewModel(appli
                 mediaRepository.audio(it)
             } ?: flowOf(Result.Error(Error.NOT_FOUND))
         }
+        .asFlowResult()
         .flowOn(Dispatchers.IO)
         .stateIn(
             viewModelScope,
             started = SharingStarted.WhileSubscribed(),
-            initialValue = null
+            initialValue = FlowResult.Loading()
         )
 
     @OptIn(ExperimentalCoroutinesApi::class)

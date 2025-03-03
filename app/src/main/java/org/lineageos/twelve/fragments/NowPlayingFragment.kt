@@ -234,22 +234,15 @@ class NowPlayingFragment : Fragment(R.layout.fragment_now_playing) {
         }
 
         audioInformationMaterialButton.setOnClickListener {
-            when (val value = viewModel.audio.value) {
-                is Result.Success -> {
-                    val audio = value.data
-                    findNavController().navigateSafe(
-                        R.id.action_nowPlayingFragment_to_fragment_media_item_bottom_sheet_dialog,
-                        MediaItemBottomSheetDialogFragment.createBundle(
-                            audio.uri,
-                            MediaType.AUDIO,
-                            fromNowPlaying = true,
-                        )
+            viewModel.audio.value.getOrNull()?.let {
+                findNavController().navigateSafe(
+                    R.id.action_nowPlayingFragment_to_fragment_media_item_bottom_sheet_dialog,
+                    MediaItemBottomSheetDialogFragment.createBundle(
+                        it.uri,
+                        MediaType.AUDIO,
+                        fromNowPlaying = true,
                     )
-                }
-
-                else -> {
-                    // Do nothing
-                }
+                )
             }
         }
 
