@@ -90,8 +90,18 @@ class PlaylistsFragment : Fragment(R.layout.fragment_playlists) {
                         true
                     }
 
-                    view.setLeadingIconImage(R.drawable.ic_playlist_play)
-                    view.headlineText = item.name
+                    view.setLeadingIconImage(
+                        when (item.type) {
+                            Playlist.Type.PLAYLIST -> R.drawable.ic_playlist_play
+                            Playlist.Type.FAVORITES -> R.drawable.ic_favorite
+                        }
+                    )
+                    view.headlineText = item.name ?: getString(
+                        when (item.type) {
+                            Playlist.Type.PLAYLIST -> R.string.playlist_unknown
+                            Playlist.Type.FAVORITES -> R.string.favorites_playlist
+                        }
+                    )
                 }
             }
         }
