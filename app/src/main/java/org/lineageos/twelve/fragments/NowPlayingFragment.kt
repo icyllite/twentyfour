@@ -46,7 +46,6 @@ import org.lineageos.twelve.ext.getViewProperty
 import org.lineageos.twelve.ext.loadThumbnail
 import org.lineageos.twelve.ext.navigateSafe
 import org.lineageos.twelve.ext.updatePadding
-import org.lineageos.twelve.models.MediaType
 import org.lineageos.twelve.models.PlaybackState
 import org.lineageos.twelve.models.RepeatMode
 import org.lineageos.twelve.models.Result
@@ -239,7 +238,6 @@ class NowPlayingFragment : Fragment(R.layout.fragment_now_playing) {
                     R.id.action_nowPlayingFragment_to_fragment_media_item_bottom_sheet_dialog,
                     MediaItemBottomSheetDialogFragment.createBundle(
                         it.uri,
-                        MediaType.AUDIO,
                         fromNowPlaying = true,
                     )
                 )

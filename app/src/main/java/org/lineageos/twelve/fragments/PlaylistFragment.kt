@@ -100,7 +100,6 @@ class PlaylistFragment : Fragment(R.layout.fragment_playlist) {
                         R.id.action_playlistFragment_to_fragment_media_item_bottom_sheet_dialog,
                         MediaItemBottomSheetDialogFragment.createBundle(
                             item.uri,
-                            item.mediaType,
                             playlistUri = playlistUri,
                         )
                     )

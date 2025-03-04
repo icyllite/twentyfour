@@ -85,9 +85,7 @@ class PlaylistsFragment : Fragment(R.layout.fragment_playlists) {
                     view.setOnLongClickListener {
                         findNavController().navigateSafe(
                             R.id.action_mainFragment_to_fragment_media_item_bottom_sheet_dialog,
-                            MediaItemBottomSheetDialogFragment.createBundle(
-                                item.uri, item.mediaType,
-                            )
+                            MediaItemBottomSheetDialogFragment.createBundle(item.uri)
                         )
                         true
                     }

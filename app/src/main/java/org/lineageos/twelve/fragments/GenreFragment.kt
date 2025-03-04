@@ -86,9 +86,7 @@ class GenreFragment : Fragment(R.layout.fragment_genre) {
                 view.setOnLongClickListener {
                     findNavController().navigateSafe(
                         R.id.action_genreFragment_to_fragment_media_item_bottom_sheet_dialog,
-                        MediaItemBottomSheetDialogFragment.createBundle(
-                            item.uri, item.mediaType,
-                        )
+                        MediaItemBottomSheetDialogFragment.createBundle(item.uri)
                     )
                     true
                 }
@@ -112,9 +110,7 @@ class GenreFragment : Fragment(R.layout.fragment_genre) {
                 view.setOnLongClickListener {
                     findNavController().navigateSafe(
                         R.id.action_genreFragment_to_fragment_media_item_bottom_sheet_dialog,
-                        MediaItemBottomSheetDialogFragment.createBundle(
-                            item.uri, item.mediaType,
-                        )
+                        MediaItemBottomSheetDialogFragment.createBundle(item.uri)
                     )
                     true
                 }
@@ -139,7 +135,7 @@ class GenreFragment : Fragment(R.layout.fragment_genre) {
                     findNavController().navigateSafe(
                         R.id.action_genreFragment_to_fragment_media_item_bottom_sheet_dialog,
                         MediaItemBottomSheetDialogFragment.createBundle(
-                            item.uri, item.mediaType,
+                            item.uri,
                             fromGenre = true,
                         )
                     )

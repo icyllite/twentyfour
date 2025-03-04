@@ -69,9 +69,7 @@ class ArtistsFragment : Fragment(R.layout.fragment_artists) {
                 view.setOnLongClickListener {
                     findNavController().navigateSafe(
                         R.id.action_mainFragment_to_fragment_media_item_bottom_sheet_dialog,
-                        MediaItemBottomSheetDialogFragment.createBundle(
-                            item.uri, item.mediaType,
-                        )
+                        MediaItemBottomSheetDialogFragment.createBundle(item.uri)
                     )
                     true
                 }

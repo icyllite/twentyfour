@@ -113,9 +113,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 view.setOnLongClickListener {
                     findNavController().navigateSafe(
                         R.id.action_mainFragment_to_fragment_media_item_bottom_sheet_dialog,
-                        MediaItemBottomSheetDialogFragment.createBundle(
-                            item.uri, item.mediaType
-                        )
+                        MediaItemBottomSheetDialogFragment.createBundle(item.uri)
                     )
                     true
                 }
@@ -151,9 +149,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                         view.setOnClickListener {
                             findNavController().navigateSafe(
                                 R.id.action_mainFragment_to_fragment_media_item_bottom_sheet_dialog,
-                                MediaItemBottomSheetDialogFragment.createBundle(
-                                    item.uri, item.mediaType
-                                )
+                                MediaItemBottomSheetDialogFragment.createBundle(item.uri)
                             )
                         }
 

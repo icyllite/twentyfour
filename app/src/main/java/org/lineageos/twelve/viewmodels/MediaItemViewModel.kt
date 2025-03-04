@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 The LineageOS Project
+ * SPDX-FileCopyrightText: 2024-2025 The LineageOS Project
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -12,6 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
@@ -25,14 +26,30 @@ import org.lineageos.twelve.models.Audio
 import org.lineageos.twelve.models.FlowResult
 import org.lineageos.twelve.models.FlowResult.Companion.asFlowResult
 import org.lineageos.twelve.models.FlowResult.Companion.foldLatest
-import org.lineageos.twelve.models.FlowResult.Companion.mapLatestDataOrNull
 import org.lineageos.twelve.models.FlowResult.Companion.mapLatestData
+import org.lineageos.twelve.models.FlowResult.Companion.mapLatestDataOrNull
 import org.lineageos.twelve.models.MediaType
 import org.lineageos.twelve.models.Result.Companion.map
 
 class MediaItemViewModel(application: Application) : TwelveViewModel(application) {
-    private val uri = MutableStateFlow<Uri?>(null)
-    private val mediaType = MutableStateFlow<MediaType?>(null)
+    private val _uri = MutableStateFlow<Uri?>(null)
+    val uri = _uri.asStateFlow()
+
+    private val fromAlbum = MutableStateFlow(false)
+    private val fromArtist = MutableStateFlow(false)
+    private val fromGenre = MutableStateFlow(false)
+    private val fromNowPlaying = MutableStateFlow(false)
+    private val playlistUri = MutableStateFlow<Uri?>(null)
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private val mediaType = uri
+        .mapLatest { uri -> uri?.let { mediaRepository.mediaTypeOf(it) } }
+        .flowOn(Dispatchers.IO)
+        .stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(),
+            null,
+        )
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private val data = combine(
@@ -90,6 +107,38 @@ class MediaItemViewModel(application: Application) : TwelveViewModel(application
             initialValue = listOf(),
         )
 
+    val showQueueButtons = combine(
+        tracks,
+        fromNowPlaying
+    ) { tracks, fromNowPlaying -> tracks.isNotEmpty() && !fromNowPlaying }
+        .flowOn(Dispatchers.IO)
+        .stateIn(
+            viewModelScope,
+            started = SharingStarted.WhileSubscribed(),
+            initialValue = false,
+        )
+
+    val canRemoveFromPlaylist = combine(
+        mediaType,
+        playlistUri,
+    ) { mediaType, playlistUri -> mediaType == MediaType.AUDIO && playlistUri != null }
+        .flowOn(Dispatchers.IO)
+        .stateIn(
+            viewModelScope,
+            started = SharingStarted.WhileSubscribed(),
+            initialValue = false,
+        )
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val canAddOrRemoveFromPlaylists = mediaType
+        .mapLatest { it == MediaType.AUDIO }
+        .flowOn(Dispatchers.IO)
+        .stateIn(
+            viewModelScope,
+            started = SharingStarted.WhileSubscribed(),
+            initialValue = false,
+        )
+
     @OptIn(ExperimentalCoroutinesApi::class)
     val albumUri = mediaItem
         .mapLatestDataOrNull()
@@ -99,6 +148,7 @@ class MediaItemViewModel(application: Application) : TwelveViewModel(application
                 else -> null
             }
         }
+        .combine(fromAlbum) { uri, fromAlbum -> uri?.takeIf { !fromAlbum } }
         .flowOn(Dispatchers.IO)
         .stateIn(
             viewModelScope,
@@ -116,6 +166,7 @@ class MediaItemViewModel(application: Application) : TwelveViewModel(application
                 else -> null
             }
         }
+        .combine(fromArtist) { uri, fromArtist -> uri?.takeIf { !fromArtist } }
         .flowOn(Dispatchers.IO)
         .stateIn(
             viewModelScope,
@@ -132,6 +183,7 @@ class MediaItemViewModel(application: Application) : TwelveViewModel(application
                 else -> null
             }
         }
+        .combine(fromGenre) { uri, fromGenre -> uri?.takeIf { !fromGenre } }
         .flowOn(Dispatchers.IO)
         .stateIn(
             viewModelScope,
@@ -139,40 +191,71 @@ class MediaItemViewModel(application: Application) : TwelveViewModel(application
             initialValue = null,
         )
 
-    fun loadMediaItem(uri: Uri, mediaType: MediaType) {
-        this.uri.value = uri
-        this.mediaType.value = mediaType
+    fun setUri(uri: Uri) {
+        _uri.value = uri
     }
 
-    fun addToQueue(vararg audios: Audio) {
-        mediaController.value?.apply {
-            addMediaItems(audios.map { it.toMedia3MediaItem(resources) })
+    fun setFromAlbum(fromAlbum: Boolean) {
+        this.fromAlbum.value = fromAlbum
+    }
 
-            // If the added items are the only one, play them
-            if (mediaItemCount == audios.count()) {
-                play()
+    fun setFromArtist(fromArtist: Boolean) {
+        this.fromArtist.value = fromArtist
+    }
+
+    fun setFromGenre(fromGenre: Boolean) {
+        this.fromGenre.value = fromGenre
+    }
+
+    fun setFromNowPlaying(fromNowPlaying: Boolean) {
+        this.fromNowPlaying.value = fromNowPlaying
+    }
+
+    fun setPlaylistUri(playlistUri: Uri?) {
+        this.playlistUri.value = playlistUri
+    }
+
+    fun playNow() {
+        tracks.value.takeIf { it.isNotEmpty() }?.let {
+            playAudio(it, 0)
+        }
+    }
+
+    fun addToQueue() {
+        tracks.value.takeIf { it.isNotEmpty() }?.let { audios ->
+            mediaController.value?.apply {
+                addMediaItems(audios.map { it.toMedia3MediaItem(resources) })
+
+                // If the added items are the only one, play them
+                if (mediaItemCount == audios.count()) {
+                    play()
+                }
             }
         }
     }
 
-    fun playNext(vararg audios: Audio) {
-        mediaController.value?.apply {
-            addMediaItems(
-                currentMediaItemIndex + 1,
-                audios.map { it.toMedia3MediaItem(resources) }
-            )
+    fun playNext() {
+        tracks.value.takeIf { it.isNotEmpty() }?.let { audios ->
+            mediaController.value?.apply {
+                addMediaItems(
+                    currentMediaItemIndex + 1,
+                    audios.map { it.toMedia3MediaItem(resources) }
+                )
 
-            // If the added items are the only one, play them
-            if (mediaItemCount == audios.count()) {
-                play()
+                // If the added items are the only one, play them
+                if (mediaItemCount == audios.count()) {
+                    play()
+                }
             }
         }
     }
 
-    suspend fun removeAudioFromPlaylist(playlistUri: Uri) {
+    suspend fun removeAudioFromPlaylist() {
         uri.value?.takeIf { mediaType.value == MediaType.AUDIO }?.let {
-            withContext(Dispatchers.IO) {
-                mediaRepository.removeAudioFromPlaylist(playlistUri, it)
+            playlistUri.value?.let { playlistUri ->
+                withContext(Dispatchers.IO) {
+                    mediaRepository.removeAudioFromPlaylist(playlistUri, it)
+                }
             }
         }
     }

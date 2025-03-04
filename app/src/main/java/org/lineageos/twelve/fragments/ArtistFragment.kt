@@ -87,7 +87,6 @@ class ArtistFragment : Fragment(R.layout.fragment_artist) {
                         R.id.action_artistFragment_to_fragment_media_item_bottom_sheet_dialog,
                         MediaItemBottomSheetDialogFragment.createBundle(
                             item.uri,
-                            item.mediaType,
                             fromArtist = true,
                         )
                     )
@@ -114,7 +113,6 @@ class ArtistFragment : Fragment(R.layout.fragment_artist) {
                         R.id.action_albumFragment_to_fragment_media_item_bottom_sheet_dialog,
                         MediaItemBottomSheetDialogFragment.createBundle(
                             item.uri,
-                            item.mediaType,
                             fromArtist = true,
                         )
                     )

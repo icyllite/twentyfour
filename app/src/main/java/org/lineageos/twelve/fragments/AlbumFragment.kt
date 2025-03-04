@@ -119,7 +119,6 @@ class AlbumFragment : Fragment(R.layout.fragment_album) {
                                 R.id.action_albumFragment_to_fragment_media_item_bottom_sheet_dialog,
                                 MediaItemBottomSheetDialogFragment.createBundle(
                                     item.audio.uri,
-                                    item.audio.mediaType,
                                     fromAlbum = true,
                                 )
                             )

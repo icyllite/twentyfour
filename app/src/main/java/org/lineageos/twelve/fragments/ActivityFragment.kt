@@ -85,9 +85,7 @@ class ActivityFragment : Fragment(R.layout.fragment_activity) {
                 view.setOnItemLongClickListener { mediaItem ->
                     findNavController().navigateSafe(
                         R.id.action_mainFragment_to_fragment_media_item_bottom_sheet_dialog,
-                        MediaItemBottomSheetDialogFragment.createBundle(
-                            mediaItem.uri, mediaItem.mediaType
-                        )
+                        MediaItemBottomSheetDialogFragment.createBundle(mediaItem.uri)
                     )
                     true
                 }
