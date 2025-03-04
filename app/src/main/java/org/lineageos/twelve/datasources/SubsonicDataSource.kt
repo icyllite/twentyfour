@@ -405,7 +405,7 @@ class SubsonicDataSource(
     }
 
     override suspend fun deletePlaylist(playlistUri: Uri) = subsonicClient.deletePlaylist(
-        playlistUri.lastPathSegment!!.toInt()
+        playlistUri.lastPathSegment!!
     ).map {
         onPlaylistsChanged()
     }

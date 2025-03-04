@@ -721,7 +721,7 @@ class SubsonicClient(
      * @param id ID of the playlist to delete, as obtained by [getPlaylists].
      */
     suspend fun deletePlaylist(
-        id: Int,
+        id: String,
     ) = ApiRequest.get<ResponseRoot>(
         listOf("deletePlaylist"),
         queryParameters = listOf(
