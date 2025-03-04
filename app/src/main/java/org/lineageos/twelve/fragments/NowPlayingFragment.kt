@@ -543,11 +543,11 @@ class NowPlayingFragment : Fragment(R.layout.fragment_now_playing) {
                 launch {
                     viewModel.lyricsLines.collectLatest {
                         when (it) {
-                            null -> {
+                            is FlowResult.Loading -> {
                                 // Do nothing
                             }
 
-                            is Result.Success -> {
+                            is FlowResult.Success -> {
                                 val (lyrics, currentIndex) = it.data
 
                                 val index = currentIndex ?: 0
@@ -563,7 +563,7 @@ class NowPlayingFragment : Fragment(R.layout.fragment_now_playing) {
                                 lyricsMaterialCardView.isVisible = true
                             }
 
-                            is Result.Error -> {
+                            is FlowResult.Error -> {
                                 Log.e(
                                     LOG_TAG,
                                     "Error while loading lyrics: ${it.error}",
