@@ -757,8 +757,8 @@ class MediaRepository(
 
         val removedMedia = buildList {
             allStats.forEach {
-                if (inSource.none { audio -> audio.playbackUri == it.mediaUri }) {
-                    add(it.mediaUri)
+                if (inSource.none { audio -> audio.playbackUri == it.audioUri }) {
+                    add(it.audioUri)
                 }
             }
         }

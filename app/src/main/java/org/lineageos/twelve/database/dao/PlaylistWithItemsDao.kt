@@ -56,19 +56,13 @@ abstract class PlaylistWithItemsDao(database: TwelveDatabase) {
      * Add an item to a playlist (creates a cross-reference) and updates last modified and track
      * count.
      */
-    open suspend fun _addItemToPlaylist(playlistId: Long, itemId: Long) {
+    open suspend fun _addItemToPlaylist(playlistId: Long, itemId: Long) =
         playlistItemCrossRefDao._addItemToPlaylist(playlistId, itemId)
-        playlistDao._increaseTrackCount(playlistId)
-        playlistDao._updateLastModified(playlistId)
-    }
 
     /**
      * Remove an item from a playlist (deletes the cross-reference) and updates last modified and
      * track count.
      */
-    open suspend fun _removeItemFromPlaylist(playlistId: Long, itemId: Long) {
+    open suspend fun _removeItemFromPlaylist(playlistId: Long, itemId: Long) =
         playlistItemCrossRefDao._removeItemFromPlaylist(playlistId, itemId)
-        playlistDao._decreaseTrackCount(playlistId)
-        playlistDao._updateLastModified(playlistId)
-    }
 }

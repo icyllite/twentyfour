@@ -623,7 +623,7 @@ class LocalDataSource(
     private fun mostPlayedAlbums(nTopTracks: Int = 100) =
         database.getLocalMediaStatsProviderDao()
             .getAllByPlayCount(nTopTracks)
-            .map { stats -> stats.map { it.mediaUri } }
+            .map { stats -> stats.map { it.audioUri } }
             .flatMapLatest { uris ->
                 contentResolver.queryFlow(
                     audiosUri,

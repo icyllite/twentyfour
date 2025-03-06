@@ -29,12 +29,6 @@ interface PlaylistItemCrossRefDao {
     )
 
     /**
-     * Check how many playlists an item is associated with.
-     */
-    @Query("SELECT COUNT(*) FROM PlaylistItemCrossRef WHERE item_id = :itemId")
-    suspend fun _getItemAssociationCount(itemId: Long): Int
-
-    /**
      * Remove an item from a playlist (deletes the cross-reference).
      */
     @Query("DELETE FROM PlaylistItemCrossRef WHERE playlist_id = :playlistId AND item_id = :itemId")
