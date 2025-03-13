@@ -16,11 +16,11 @@ plugins {
 }
 
 android {
-    namespace = "org.lineageos.twelve"
+    namespace = "me.icy.twentyfour"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "org.lineageos.twelve"
+        applicationId = "me.icy.twentyfour"
         minSdk = 30
         targetSdk = 35
         versionCode = 1
