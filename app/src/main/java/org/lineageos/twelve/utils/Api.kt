@@ -256,10 +256,3 @@ fun <T> MethodResult<T>.mapToError() = when (this) {
     is Result.Success -> Result.Success<T, Error>(data)
     is Result.Error -> Result.Error(error.toError(), throwable)
 }
-
-suspend fun <T, O> MethodResult<T>.toResult(
-    resultGetter: suspend T.() -> O
-) = when (this) {
-    is Result.Success -> data.resultGetter()
-    else -> null
-}
