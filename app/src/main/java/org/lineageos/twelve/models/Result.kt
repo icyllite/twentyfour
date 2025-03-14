@@ -8,20 +8,20 @@ package org.lineageos.twelve.models
 /**
  * Result status. This is very similar to Arrow's `Either<A, B>`
  */
-sealed class Result<T, E> {
+sealed interface Result<T, E> {
     /**
      * The result is ready.
      *
      * @param data The obtained data
      */
-    class Success<T, E>(val data: T) : Result<T, E>()
+    class Success<T, E>(val data: T) : Result<T, E>
 
     /**
      * The request failed.
      *
      * @param error The error
      */
-    class Error<T, E>(val error: E, val throwable: Throwable? = null) : Result<T, E>()
+    class Error<T, E>(val error: E, val throwable: Throwable? = null) : Result<T, E>
 
     companion object {
         /**
