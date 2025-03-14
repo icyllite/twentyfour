@@ -20,6 +20,7 @@ sealed interface Result<T, E> {
      * The request failed.
      *
      * @param error The error
+     * @param throwable An optional [Throwable] object
      */
     class Error<T, E>(val error: E, val throwable: Throwable? = null) : Result<T, E>
 
