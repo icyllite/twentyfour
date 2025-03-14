@@ -33,13 +33,22 @@ sealed interface Result<T, E> {
         }
 
         /**
-         * Map the result to another type.
+         * Map the successful result to another [Result] object.
+         * On [Error], the original [Result] is returned.
+         */
+        inline fun <T, E, R> Result<T, E>.flatMap(
+            mapping: (T) -> Result<R, E>
+        ): Result<R, E> = when (this) {
+            is Success -> mapping(data)
+            is Error -> Error(error, throwable)
+        }
+
+        /**
+         * Map the successful result to another type.
+         * On [Error], the original [Result] is returned.
          */
         inline fun <T, E, R> Result<T, E>.map(
             mapping: (T) -> R
-        ): Result<R, E> = when (this) {
-            is Success -> Success(mapping(data))
-            is Error -> Error(error, throwable)
-        }
+        ): Result<R, E> = flatMap { Success(mapping(it)) }
     }
 }
