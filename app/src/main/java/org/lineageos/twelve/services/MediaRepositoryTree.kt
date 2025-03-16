@@ -8,6 +8,7 @@ package org.lineageos.twelve.services
 import android.content.Context
 import android.net.Uri
 import android.util.Log
+import androidx.core.net.toUri
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
 import kotlinx.coroutines.flow.Flow
@@ -277,7 +278,7 @@ class MediaRepositoryTree(
      * Convert this media ID to a [Uri] if valid.
      */
     private fun mediaIdToMediaItemUri(mediaId: String) = runCatching {
-        Uri.parse(mediaId)
+        mediaId.toUri()
     }.getOrNull()
 
     private suspend fun mediaItemUriToMediaType(
