@@ -22,6 +22,7 @@ import org.lineageos.twelve.models.Provider
 import org.lineageos.twelve.models.ProviderIdentifier
 import org.lineageos.twelve.models.ProviderType
 import org.lineageos.twelve.models.Result
+import org.lineageos.twelve.models.Result.Companion.getOrNull
 import org.lineageos.twelve.repositories.MediaRepository
 import org.lineageos.twelve.utils.PermissionsUtils
 
@@ -273,6 +274,23 @@ class MediaRepositoryTree(
     suspend fun search(query: String) = repository.search("%${query}%").toOneShotResult().map {
         it.toMedia3MediaItem(context.resources)
     }
+
+    /**
+     * Set the favorite status of a media item. Note that it will only work for audio items.
+     *
+     * @param mediaId The media ID of the item
+     * @param isFavorite The new favorite status
+     * @return Whether the operation was successful
+     */
+    suspend fun setFavorite(
+        mediaId: String,
+        isFavorite: Boolean,
+    ) = mediaIdToMediaItemUri(mediaId)?.let {
+        when (mediaItemUriToMediaType(it)) {
+            MediaType.AUDIO -> repository.setFavorite(it, isFavorite).getOrNull()
+            else -> null
+        }
+    }?.let { true } ?: false
 
     /**
      * Convert this media ID to a [Uri] if valid.
