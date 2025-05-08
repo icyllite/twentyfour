@@ -3,16 +3,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import org.lineageos.generatebp.GenerateBpPluginExtension
-import org.lineageos.generatebp.models.Module
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kapt)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kotlin.parcelize)
-    alias(libs.plugins.lineageos.generatebp)
 }
 
 android {
@@ -99,26 +95,4 @@ dependencies {
         exclude(group = "com.android.support")
     }
     implementation(libs.okhttp)
-}
-
-configure<GenerateBpPluginExtension> {
-    targetSdk.set(android.defaultConfig.targetSdk!!)
-    minSdk.set(android.defaultConfig.minSdk!!)
-    availableInAOSP.set { module: Module ->
-        when {
-            module.group.startsWith("androidx") -> {
-                // We provide our own androidx.media3
-                !module.group.startsWith("androidx.media3")
-            }
-            module.group.startsWith("org.jetbrains") -> true
-            module.group == "com.google.android.material" -> true
-            module.group == "com.google.auto.value" -> true
-            module.group == "com.google.code.findbugs" -> true
-            module.group == "com.google.errorprone" -> true
-            module.group == "com.google.guava" -> true
-            module.group == "org.jspecify" -> true
-            module.group == "junit" -> true
-            else -> false
-        }
-    }
 }

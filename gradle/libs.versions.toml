@@ -24,7 +24,6 @@ preference = "1.2.1"
 recyclerview = "1.4.0"
 room = "2.6.0"
 viewpager2 = "1.1.0"
-generateBp = "+"
 
 [libraries]
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
@@ -62,4 +61,3 @@ kapt = { id = "org.jetbrains.kotlin.kapt" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-lineageos-generatebp = { id = "org.lineageos.generatebp", version.ref = "generateBp" }
