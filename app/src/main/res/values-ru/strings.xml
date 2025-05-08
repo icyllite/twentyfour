@@ -4,7 +4,6 @@
      SPDX-License-Identifier: Apache-2.0
 -->
 <resources>
-    <string name="app_name">Музыка</string>
     <string name="app_permissions_toast">Разрешения не предоставлены пользователем.</string>
     <string name="visualizer_permissions_toast">Для визуализации требуется разрешение на запись звука.</string>
     <string name="request_status_error_type_unknown">Неизвестно</string>

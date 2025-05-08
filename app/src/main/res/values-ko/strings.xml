@@ -4,7 +4,6 @@
      SPDX-License-Identifier: Apache-2.0
 -->
 <resources>
-    <string name="app_name">음악</string>
     <string name="app_permissions_toast">사용자에 의해 권한이 허용되어 있지 않습니다.</string>
     <string name="visualizer_permissions_toast">시각화 기능을 사용하려면 오디오 녹음 권한이 필요합니다.</string>
     <string name="request_status_error_type_unknown">알 수 없음</string>

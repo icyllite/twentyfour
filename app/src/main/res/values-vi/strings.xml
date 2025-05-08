@@ -4,7 +4,6 @@
      SPDX-License-Identifier: Apache-2.0
 -->
 <resources>
-    <string name="app_name">Nhạc</string>
     <string name="app_permissions_toast">Quyền không được cấp bởi người dùng.</string>
     <string name="visualizer_permissions_toast">Trình trực quan hóa cần có quyền Ghi âm.</string>
     <string name="request_status_error_type_unknown">Không rõ</string>

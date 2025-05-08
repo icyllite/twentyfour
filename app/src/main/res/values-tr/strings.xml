@@ -4,7 +4,6 @@
      SPDX-License-Identifier: Apache-2.0
 -->
 <resources>
-    <string name="app_name">Müzik</string>
     <string name="app_permissions_toast">Kullanıcı, izinleri vermedi.</string>
     <string name="visualizer_permissions_toast">Görselleştirici için ses kaydetme izni gereklidir.</string>
     <string name="request_status_error_type_unknown">Bilinmiyor</string>
