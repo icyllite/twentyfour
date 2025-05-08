@@ -20,19 +20,19 @@
 
     <LinearLayout
         android:id="@+id/noElementsLinearLayout"
-        style="@style/Theme.Twelve.NoElements.LinearLayout"
+        style="@style/Theme.Twentyfour.NoElements.LinearLayout"
         android:layout_gravity="center"
         android:visibility="gone">
 
         <TextView
-            style="@style/Theme.Twelve.NoElements.TextView"
+            style="@style/Theme.Twentyfour.NoElements.TextView"
             android:text="@string/shrug"
             android:textAppearance="?attr/textAppearanceDisplayMedium" />
 
-        <Space style="@style/Theme.Twelve.NoElements.Space" />
+        <Space style="@style/Theme.Twentyfour.NoElements.Space" />
 
         <TextView
-            style="@style/Theme.Twelve.NoElements.TextView"
+            style="@style/Theme.Twentyfour.NoElements.TextView"
             android:text="@string/no_activity" />
 
     </LinearLayout>

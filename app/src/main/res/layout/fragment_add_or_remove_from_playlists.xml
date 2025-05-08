@@ -32,19 +32,19 @@
 
     <LinearLayout
         android:id="@+id/noElementsLinearLayout"
-        style="@style/Theme.Twelve.NoElements.LinearLayout"
+        style="@style/Theme.Twentyfour.NoElements.LinearLayout"
         android:layout_gravity="center"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <ImageView
-            style="@style/Theme.Twelve.NoElements.ImageView"
+            style="@style/Theme.Twentyfour.NoElements.ImageView"
             android:contentDescription="@string/no_playlists"
             android:src="@drawable/ic_playlist_play" />
 
-        <Space style="@style/Theme.Twelve.NoElements.Space" />
+        <Space style="@style/Theme.Twentyfour.NoElements.Space" />
 
         <TextView
-            style="@style/Theme.Twelve.NoElements.TextView"
+            style="@style/Theme.Twentyfour.NoElements.TextView"
             android:text="@string/no_playlists_comma" />
 
         <Button
@@ -63,7 +63,7 @@
         android:indeterminate="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <org.lineageos.twelve.ui.views.FullscreenLoadingProgressBar
+    <git.icyllite.twentyfour.ui.views.FullscreenLoadingProgressBar
         android:id="@+id/fullscreenLoadingProgressBar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

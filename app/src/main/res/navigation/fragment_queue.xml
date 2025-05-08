@@ -11,7 +11,7 @@
 
     <fragment
         android:id="@+id/queueFragment"
-        android:name="org.lineageos.twelve.fragments.QueueFragment"
+        android:name="git.icyllite.twentyfour.fragments.QueueFragment"
         android:label="@string/queue"
         tools:layout="@layout/fragment_queue" />
 

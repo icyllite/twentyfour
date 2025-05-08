@@ -11,7 +11,7 @@
 
     <fragment
         android:id="@+id/lyricsFragment"
-        android:name="org.lineageos.twelve.fragments.LyricsFragment"
+        android:name="git.icyllite.twentyfour.fragments.LyricsFragment"
         android:label="@string/lyrics"
         tools:layout="@layout/fragment_lyrics" />
 

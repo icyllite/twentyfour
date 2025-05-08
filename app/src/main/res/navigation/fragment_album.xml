@@ -11,7 +11,7 @@
 
     <fragment
         android:id="@+id/albumFragment"
-        android:name="org.lineageos.twelve.fragments.AlbumFragment"
+        android:name="git.icyllite.twentyfour.fragments.AlbumFragment"
         tools:layout="@layout/fragment_album">
 
         <action

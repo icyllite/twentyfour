@@ -19,19 +19,19 @@
 
     <LinearLayout
         android:id="@+id/searchNoElementsLinearLayout"
-        style="@style/Theme.Twelve.NoElements.LinearLayout"
+        style="@style/Theme.Twentyfour.NoElements.LinearLayout"
         android:layout_gravity="center"
         android:visibility="gone">
 
         <ImageView
-            style="@style/Theme.Twelve.NoElements.ImageView"
+            style="@style/Theme.Twentyfour.NoElements.ImageView"
             android:contentDescription="@string/no_results"
             android:src="@drawable/ic_search_off" />
 
-        <Space style="@style/Theme.Twelve.NoElements.Space" />
+        <Space style="@style/Theme.Twentyfour.NoElements.Space" />
 
         <TextView
-            style="@style/Theme.Twelve.NoElements.TextView"
+            style="@style/Theme.Twentyfour.NoElements.TextView"
             android:text="@string/no_results" />
 
     </LinearLayout>

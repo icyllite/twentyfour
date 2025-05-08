@@ -11,7 +11,7 @@
     android:orientation="horizontal">
 
     <FrameLayout
-        style="@style/Theme.Twelve.NowPlayingFragment.MediaButton.Tertiary.Container"
+        style="@style/Theme.Twentyfour.NowPlayingFragment.MediaButton.Tertiary.Container"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/previousTrackMaterialButton"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,19 +19,19 @@
 
         <ImageView
             android:id="@+id/shuffleMarkerImageView"
-            style="@style/Theme.Twelve.NowPlayingFragment.MediaButton.Tertiary.Marker"
+            style="@style/Theme.Twentyfour.NowPlayingFragment.MediaButton.Tertiary.Marker"
             android:importantForAccessibility="no" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/shuffleMaterialButton"
-            style="@style/Theme.Twelve.NowPlayingFragment.MediaButton.Tertiary"
+            style="@style/Theme.Twentyfour.NowPlayingFragment.MediaButton.Tertiary"
             app:icon="@drawable/ic_shuffle" />
 
     </FrameLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/previousTrackMaterialButton"
-        style="@style/Theme.Twelve.NowPlayingFragment.MediaButton.Secondary"
+        style="@style/Theme.Twentyfour.NowPlayingFragment.MediaButton.Secondary"
         app:icon="@drawable/ic_skip_previous"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/playPauseMaterialButton"
@@ -39,7 +39,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/playPauseMaterialButton"
-        style="@style/Theme.Twelve.NowPlayingFragment.MediaButton.Primary"
+        style="@style/Theme.Twentyfour.NowPlayingFragment.MediaButton.Primary"
         app:icon="@drawable/ic_play_arrow"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,14 +48,14 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/nextTrackMaterialButton"
-        style="@style/Theme.Twelve.NowPlayingFragment.MediaButton.Secondary"
+        style="@style/Theme.Twentyfour.NowPlayingFragment.MediaButton.Secondary"
         app:icon="@drawable/ic_skip_next"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/playPauseMaterialButton"
         app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
-        style="@style/Theme.Twelve.NowPlayingFragment.MediaButton.Tertiary.Container"
+        style="@style/Theme.Twentyfour.NowPlayingFragment.MediaButton.Tertiary.Container"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/nextTrackMaterialButton"
@@ -63,12 +63,12 @@
 
         <ImageView
             android:id="@+id/repeatMarkerImageView"
-            style="@style/Theme.Twelve.NowPlayingFragment.MediaButton.Tertiary.Marker"
+            style="@style/Theme.Twentyfour.NowPlayingFragment.MediaButton.Tertiary.Marker"
             android:importantForAccessibility="no" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/repeatMaterialButton"
-            style="@style/Theme.Twelve.NowPlayingFragment.MediaButton.Tertiary"
+            style="@style/Theme.Twentyfour.NowPlayingFragment.MediaButton.Tertiary"
             app:icon="@drawable/ic_repeat" />
 
     </FrameLayout>

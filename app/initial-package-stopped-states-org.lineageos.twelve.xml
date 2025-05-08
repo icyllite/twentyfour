@@ -4,5 +4,5 @@
      SPDX-License-Identifier: Apache-2.0
 -->
 <config>
-    <initial-package-state package="org.lineageos.twelve" stopped="false"/>
+    <initial-package-state package="git.icyllite.twentyfour" stopped="false"/>
 </config>

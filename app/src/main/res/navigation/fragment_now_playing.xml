@@ -11,7 +11,7 @@
 
     <fragment
         android:id="@+id/nowPlayingFragment"
-        android:name="org.lineageos.twelve.fragments.NowPlayingFragment"
+        android:name="git.icyllite.twentyfour.fragments.NowPlayingFragment"
         tools:layout="@layout/fragment_now_playing">
 
         <action

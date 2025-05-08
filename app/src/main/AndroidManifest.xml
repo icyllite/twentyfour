@@ -5,7 +5,7 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="org.lineageos.twelve">
+    package="git.icyllite.twentyfour">
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
@@ -21,7 +21,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
-        android:name=".TwelveApplication"
+        android:name=".TwentyfourApplication"
         android:appCategory="audio"
         android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher"
@@ -29,7 +29,7 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Twelve"
+        android:theme="@style/Theme.Twentyfour"
         tools:targetApi="tiramisu">
 
         <activity
@@ -72,7 +72,7 @@
             android:name=".ViewActivity"
             android:excludeFromRecents="true"
             android:exported="true"
-            android:theme="@style/Theme.Twelve.Dialog">
+            android:theme="@style/Theme.Twentyfour.Dialog">
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -111,7 +111,7 @@
                 <action android:name="androidx.media3.session.MediaLibraryService" />
                 <action android:name="android.media.browse.MediaBrowserService" />
                 <action android:name="android.media.action.MEDIA_PLAY_FROM_SEARCH" />
-                <action android:name="org.lineageos.twelve.ACTION_TOGGLE_PLAY_PAUSE" />
+                <action android:name="git.icyllite.twentyfour.ACTION_TOGGLE_PLAY_PAUSE" />
             </intent-filter>
 
         </service>
